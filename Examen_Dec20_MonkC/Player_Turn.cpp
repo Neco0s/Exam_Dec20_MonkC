@@ -7,15 +7,13 @@ void manage_pisteur(int map[map_height][map_width], int index, t_entity* monk, t
 //SORTIE: -
 //ENTREES UTILISATEUR: OUI
 {
-	if (pisteurs[index].hp < 1 && pisteurs[index].state != 0)
-	//Vérification de la santé du pisteur (et s'il était encore considéré comme vivant)
+	if (pisteurs[index].hp < 1 && pisteurs[index].state != 0) //Vérification de la santé du pisteur (et s'il était encore considéré comme vivant)
 	{
 		printf("Le pisteur %d s'est fait tuer!\n", index);
 		pisteurs[index].state = 0;
 		system("pause");
 	}
-	else if (pisteurs[index].state > 0)
-	//Vérification de l'état du pisteur
+	else if (pisteurs[index].state > 0) //Vérification de l'état du pisteur
 	{
 		char phrase[255] = { NULL }; //Tableau de caractères utilisé pour la phrase inscrite en cas de non-détection du monk
 		char for_itoa[7] = { NULL }; //Tableau de caractères permettant l'utilisation de la fonction itoa()
@@ -25,11 +23,9 @@ void manage_pisteur(int map[map_height][map_width], int index, t_entity* monk, t
 		int traces = 1; //Permet de commencer la phrase par les bons éléments
 		for (int i = 0; i < 3; i++)
 			for (int j = 0; j < 3; j++)
-				if (traces != 2 && (i != 1 || j != 1))
-				//Vérification de la case (pour éviter celle du pisteur) et de la détection du monk
+				if (traces != 2 && (i != 1 || j != 1)) //Vérification de la case (pour éviter celle du pisteur) et de la détection du monk
 				{
-					if (map[pisteurs[index].y - 1 + i][pisteurs[index].x - 1 + j] > 0 && map[pisteurs[index].y - 1 + i][pisteurs[index].x - 1 + j] < 16)
-					//Détection de traces
+					if (map[pisteurs[index].y - 1 + i][pisteurs[index].x - 1 + j] > 0 && map[pisteurs[index].y - 1 + i][pisteurs[index].x - 1 + j] < 16) //Détection de traces
 					{
 						if (traces == 0)
 							strcat(phrase, ".\n");
@@ -40,8 +36,7 @@ void manage_pisteur(int map[map_height][map_width], int index, t_entity* monk, t
 						strcat(phrase, ".\n");
 						traces = 1;
 					}
-					else if (map[pisteurs[index].y - 1 + i][pisteurs[index].x - 1 + j] != 16)
-					//Pas de traces ni de monk
+					else if (map[pisteurs[index].y - 1 + i][pisteurs[index].x - 1 + j] != 16) //Pas de traces ni de monk
 					{
 						if (traces)
 						{
@@ -55,24 +50,20 @@ void manage_pisteur(int map[map_height][map_width], int index, t_entity* monk, t
 							strcat(phrase, itoa(i * 3 + j + 1, for_itoa, 10));
 						}
 					}
-					else
-					//Détection du monk, pas de phrase parlant des traces
+					else //Détection du monk, pas de phrase parlant des traces
 					{
 						printf("Je le vois.\n");
 						traces = 2;
 					}
 				}
-		if (traces == 0)
-		//Si la dernière case ne contient pas de traces (case 9)
+		if (traces == 0) //Si la dernière case ne contient pas de traces (case 9)
 			strcat(phrase, ".\n");
-		if (traces == 2)
-		//Si le monk est détecté
+		if (traces == 2) //Si le monk est détecté
 		{
 			char shoot[2] = { NULL };
 			printf("Appuyez sur 't' puis 'enter' pour tirer.\n");
 			scanf("%s", &shoot); //Entrée de la commande de tir par le joueur
-			if (strcmp(shoot, "t") == 0)
-			//Vérification de l'entrée du joueur
+			if (strcmp(shoot, "t") == 0) //Vérification de l'entrée du joueur
 			{
 				printf("Le pisteur tire.\n");
 				_sleep(1000);//Crée un suspens
@@ -104,8 +95,7 @@ void move_pisteur(int map[map_height][map_width], int index, t_entity* pisteurs,
 {
 	int input = NULL;
 	int moved = 0;
-	while (!moved)
-	//Boucle tant que le joueur ne se déplace pas
+	while (!moved) //Boucle tant que le joueur ne se déplace pas
 	{
 		printf("Dans quelle direction doit aller le pisteur %d?\n1 Haut, 2 Droite, 3 Bas, 4 Gauche.\nSi vous ne pouvez pas bouger, entrez la valeur 0, cela vous fera recommencer la partie (mais vous aurez perdu).\n", index);
 		scanf("%d", &input); //Entrée de la direction du déplacement par le joueur
@@ -114,11 +104,9 @@ void move_pisteur(int map[map_height][map_width], int index, t_entity* pisteurs,
 		case 1: //Haut
 			moved = 1;
 			for (int i = 0; i < n_pisteurs; i++)
-				if (i != index && pisteurs[i].x == pisteurs[index].x && pisteurs[i].y == pisteurs[index].y - 1 && pisteurs[i].hp > 0)
-				//Vérification de la disponibilité de l'emplacement par rapport aux autres pisteurs
+				if (i != index && pisteurs[i].x == pisteurs[index].x && pisteurs[i].y == pisteurs[index].y - 1 && pisteurs[i].hp > 0) //Vérification de la disponibilité de l'emplacement par rapport aux autres pisteurs
 					moved = 0;
-			if (moved && map[pisteurs[index].y - 1][pisteurs[index].x] < 16)
-			//Vérification de la disponibilité de l'emplacement par rapport au monk et la limite de map
+			if (moved && map[pisteurs[index].y - 1][pisteurs[index].x] < 16) //Vérification de la disponibilité de l'emplacement par rapport au monk et la limite de map
 				pisteurs[index].y -= 1;
 			else
 			{
@@ -166,11 +154,10 @@ void move_pisteur(int map[map_height][map_width], int index, t_entity* pisteurs,
 			}
 			break;
 		case 0:
-			for (int i = 0; i < n_pisteurs; i++)
-			//Auto-détruit tous les pisteurs
+			for (int i = 0; i < n_pisteurs; i++) //Auto-détruit tous les pisteurs
 			{
-				pisteurs->state = 0;
-				pisteurs->hp = 0;
+				pisteurs[i].state = 0;
+				pisteurs[i].hp = 0;
 				moved = 1;
 			}
 			break;

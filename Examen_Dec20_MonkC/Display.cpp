@@ -13,8 +13,7 @@ void display_game(int map[map_height][map_width], t_entity monk, t_entity* piste
 		{
 			int player = 0;
 			for (int k = 0; k < n_pisteurs; k++)
-				if (i == pisteurs[k].y && j == pisteurs[k].x && pisteurs[k].state != 0)
-					//Vérification de la présence d'un pisteur à l'emplacement indiqué
+				if (i == pisteurs[k].y && j == pisteurs[k].x && pisteurs[k].state != 0) //Vérification de la présence d'un pisteur à l'emplacement indiqué
 				{
 					player = 1;
 					if (pisteurs[k].state == 3) //Forme "rapport"
